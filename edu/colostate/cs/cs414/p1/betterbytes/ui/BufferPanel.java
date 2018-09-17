@@ -6,6 +6,8 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import edu.colostate.cs.cs414.p1.betterbytes.utilities.Tools;
+
 public class BufferPanel extends JPanel implements Runnable {
 
 	/**
@@ -14,9 +16,10 @@ public class BufferPanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	private Image img = null;
-	private Mouse mouse = new Mouse();
+	private Mouse mouse = new Mouse(this);
 	private GameFrame gf = null;
-	private Grid grid = new Grid(15,15);
+	private Grid grid = new Grid(-50, -50);
+	private Image background = Tools.getLocalImg("data/background.png");
 
 	public BufferPanel(GameFrame gf) {
 		this.gf = gf;
@@ -25,15 +28,15 @@ public class BufferPanel extends JPanel implements Runnable {
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		this.paintBackGround(g);
 		g.setColor(Color.RED);
 		g.drawString("Mouse: " + this.mouse.getLocation(), 15, 15);
-		grid.setCellSize((int) (this.getWidth() * .09));
-		grid.paint(g);
-		for(Cell c : grid.getCells()) {
-			if(c.hasPiece()) {
-				g.setColor(Color.BLUE);
-				g.fillRect(c.getRealX() + 10, c.getRealY() + 10, 20, 20);
-			}
+		grid.paint(g);		
+	}
+
+	public void paintBackGround(Graphics g) {
+		if (this.background != null) {
+			g.drawImage(background, 0, 0, 950, 845, null);
 		}
 	}
 
@@ -57,5 +60,5 @@ public class BufferPanel extends JPanel implements Runnable {
 	public Grid getGrid() {
 		return this.grid;
 	}
-	
+
 }

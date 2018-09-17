@@ -13,7 +13,6 @@ public class GameFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BufferPanel back = null;
-	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 
 	public GameFrame(int width, int height) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,11 +22,19 @@ public class GameFrame extends JFrame {
 		this.setVisible(true);
 		new Thread(back).start();
 		this.setTitle("Tafl V" + 1);
+		this.setResizable(false);
 	}
 
 	public static void main(String[] arg0) {
-		GameFrame gf = new GameFrame(800, 900);
-		gf.setPiece(new Piece(PieceType.KING, false), 1, 1);
+		GameFrame gf = new GameFrame(750, 800);
+		gf.placePiece(new Piece(PieceType.KING, true), 1, 7);
+		gf.placePiece(new Piece(PieceType.KING, true), 2, 5);
+		gf.placePiece(new Piece(PieceType.KING, false), 3, 3);
+		gf.placePiece(new Piece(PieceType.KING, true), 5, 8);
+		gf.placePiece(new Piece(PieceType.KING, false), 4, 7);
+		gf.placePiece(new Piece(PieceType.KING, true), 6, 6);
+		gf.placePiece(new Piece(PieceType.KING, false), 7, 3);
+		gf.placePiece(new Piece(PieceType.KING, true), 8, 4);
 
 	}
 
@@ -45,7 +52,7 @@ public class GameFrame extends JFrame {
 		return true;
 	}
 
-	public void setPiece(Piece p, int x, int y) {
+	public void placePiece(Piece p, int x, int y) {
 		for (Cell c : this.getBufferPanel().getGrid().getCells())
 			if (c.getX() == x && c.getY() == y)
 				c.setPiece(p);
