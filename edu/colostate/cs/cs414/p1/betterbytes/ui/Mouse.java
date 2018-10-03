@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.p1.betterbytes.ui;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,13 +24,19 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		setLocation(new Point(e.getX(), e.getY()));
-
+		for (PaintButton b : bf.getButtons()) {
+			if (b.getBounds().contains(getLocation())) {
+				b.setMouseOver(true);
+			} else {
+				if (b.getMouseOver())
+					b.setMouseOver(false);
+			}
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		setLocation(new Point(e.getX(), e.getY()));
-
 	}
 
 	@Override
@@ -47,15 +54,20 @@ public class Mouse implements MouseListener, MouseMotionListener {
 				} else {
 					if (!c.equals(bf.getGrid().getSelectedCell())
 							&& bf.getGrid().getSelectedCell().getPiece() != null) {
-						//c.setPiece(bf.getGrid().getSelectedCell().getPiece());
-						//bf.getGrid().getSelectedCell().setPiece(null);
-						bf.getGrid().movePiece(bf.getGrid().getSelectedCell().getPiece(), 
+						// c.setPiece(bf.getGrid().getSelectedCell().getPiece());
+						// bf.getGrid().getSelectedCell().setPiece(null);
+						bf.getGame().movePiece(bf.getGrid().getSelectedCell().getPiece(),
 								bf.getGrid().getSelectedCell(), c);
 						bf.getGrid().clearSelected();
 					} else {
 						bf.getGrid().clearSelected();
 					}
 				}
+			}
+		}
+		for (PaintButton b : bf.getButtons()) {
+			if (b.getBounds().contains(getLocation())) {
+				b.clicked();
 			}
 		}
 	}
